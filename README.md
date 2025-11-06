@@ -1,66 +1,68 @@
-## Foundry
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+# Atlas DVP Rail
 
-Foundry consists of:
+Atlas DVP Rail is a modular smart contract system for atomic Delivery vs Payment (DVP) settlement across Layer 2 (L2) blockchains. It is designed for secure, proof-based asset transfers and registry management, using Foundry for development and testing.
 
-- **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
-- **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
-- **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
-- **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+## Features
 
-## Documentation
+- **Receipt1155**: ERC-1155 token contract for representing receipts and multi-asset settlements.
+- **SettlementRegistry**: Registry contract for managing ownership and settlement logic.
+- **Spoke**: L2 contract for locking and releasing assets based on proof verification.
+- **ProofAdapterMock**: Mock proof verifier for testing cross-chain proofs.
+- **MockERC20**: Test ERC-20 token for simulating asset transfers.
 
-https://book.getfoundry.sh/
+## Project Structure
 
-## Usage
+- `src/` — Main smart contracts
+	- `Receipt1155.sol`, `SettlementRegistry.sol`, `l2/Spoke.sol`, `l2/ProofAdapterMock.sol`, `mock/MockERC20.sol`
+- `test/` — Foundry test files
+- `script/` — Deployment and scripting utilities
+- `lib/` — External libraries (e.g., forge-std)
 
-### Build
+## Development
 
-```shell
-$ forge build
+This project uses [Foundry](https://book.getfoundry.sh/) for Solidity development.
+
+### Build Contracts
+
+```bash
+forge build
 ```
 
-### Test
+### Run Tests
 
-```shell
-$ forge test
+```bash
+forge test
 ```
 
-### Format
+### Local Node
 
-```shell
-$ forge fmt
+Start a local Ethereum node for testing:
+
+```bash
+anvil
+```
+
+### Format Code
+
+```bash
+forge fmt
 ```
 
 ### Gas Snapshots
 
-```shell
-$ forge snapshot
+```bash
+forge snapshot
 ```
 
-### Anvil
+## Deployment
 
-```shell
-$ anvil
+Example deployment script:
+
+```bash
+forge script script/Deploy.s.sol --rpc-url <your_rpc_url> --private-key <your_private_key>
 ```
 
-### Deploy
+## License
 
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+MIT
