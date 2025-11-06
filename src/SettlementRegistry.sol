@@ -20,11 +20,7 @@ contract SettlementRegistry {
     }
 
     event SettlementRecorded(
-        bytes32 indexed dvpHash,
-        address indexed partyA,
-        address indexed partyB,
-        uint256 time,
-        Status status
+        bytes32 indexed dvpHash, address indexed partyA, address indexed partyB, uint256 time, Status status
     );
 
     Receipt1155 public receipt;
@@ -48,28 +44,14 @@ contract SettlementRegistry {
     mapping(bytes32 => Settlement) public settlements;
 
     /// @notice Atlas kanıtları doğrulandıktan sonra çağrılacak kayıt fonksiyonu (MVP: owner-only)
-    function recordSettlement(
-        bytes32 dvpHash,
-        address partyA,
-        address partyB
-    ) external onlyOwner returns (uint256 id) {
+    function recordSettlement(bytes32 dvpHash, address partyA, address partyB) external onlyOwner returns (uint256 id) {
         require(settlements[dvpHash].status == Status.None, "exists");
 
         settlements[dvpHash] = Settlement({
-            dvpHash: dvpHash,
-            partyA: partyA,
-            partyB: partyB,
-            time: block.timestamp,
-            status: Status.Settled
+            dvpHash: dvpHash, partyA: partyA, partyB: partyB, time: block.timestamp, status: Status.Settled
         });
 
-        emit SettlementRecorded(
-            dvpHash,
-            partyA,
-            partyB,
-            block.timestamp,
-            Status.Settled
-        );
+        emit SettlementRecorded(dvpHash, partyA, partyB, block.timestamp, Status.Settled);
 
         // Taraflara aynı id'den 1'er adet makbuz bas
         id = ++nextReceiptId;
